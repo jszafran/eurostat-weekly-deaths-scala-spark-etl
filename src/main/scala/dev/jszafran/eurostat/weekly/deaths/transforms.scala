@@ -5,8 +5,8 @@ import org.apache.spark.sql.functions._
 
 object transforms {
 
-  def happyData()(df: DataFrame): DataFrame = {
-    df.withColumn("happy", lit("data is fun"))
+  def addIdColumn(df: DataFrame): DataFrame = {
+    df.withColumn("id", monotonically_increasing_id())
   }
 
 }

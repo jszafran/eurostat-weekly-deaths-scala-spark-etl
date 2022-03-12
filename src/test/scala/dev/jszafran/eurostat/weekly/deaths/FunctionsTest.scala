@@ -6,10 +6,7 @@ import com.github.mrpowers.spark.fast.tests.ColumnComparer
 import org.apache.spark.sql.types.{StructField, StructType, StringType}
 import org.apache.spark.sql.Row
 
-class FunctionsSpec
-    extends FunSpec
-    with SparkSessionTestWrapper
-    with ColumnComparer {
+class FunctionsSpec extends FunSpec with SparkSessionTestWrapper with ColumnComparer {
 
   import spark.implicits._
 

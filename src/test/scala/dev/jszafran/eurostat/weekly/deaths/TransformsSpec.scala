@@ -6,10 +6,7 @@ import com.github.mrpowers.spark.fast.tests.DataFrameComparer
 import org.apache.spark.sql.types.{StructField, StructType, StringType}
 import org.apache.spark.sql.Row
 
-class TransformsSpec
-    extends FunSpec
-    with SparkSessionTestWrapper
-    with DataFrameComparer {
+class TransformsSpec extends FunSpec with SparkSessionTestWrapper with DataFrameComparer {
 
   import spark.implicits._
 
