@@ -167,3 +167,4 @@ spark-warehouse/
 
 # End of https://www.toptal.com/developers/gitignore/api/scala,metals,bloop,sbt,visualstudiocode,spark
 
+.data

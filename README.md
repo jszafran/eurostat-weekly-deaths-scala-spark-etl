@@ -1,15 +1,5 @@
 # eurostat-weekly-deaths
 
-*add project short description*
+ETL for transforming Eurostat Weekly Deaths data with Scala & Spark.
 
-## Accessing the library
-
-*How to access the code*
-
-## Documentation
-
-*A link to the documentation*
-
-## How to contribute
-
-*How others can contribute to the project*
+Template created with `MrPowers/spark-sbt.g8` giter8 template.
