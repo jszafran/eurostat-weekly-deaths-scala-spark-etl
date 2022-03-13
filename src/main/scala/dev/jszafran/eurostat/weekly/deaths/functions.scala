@@ -9,4 +9,9 @@ object functions {
     col % 2 === lit(0)
   }
 
+  def parseDeathsCol(col: Column) = {
+    when(col.contains(":"), lit(0))
+      .otherwise(regexp_replace(col, ":", ""))
+      .cast("Int")
+  }
 }

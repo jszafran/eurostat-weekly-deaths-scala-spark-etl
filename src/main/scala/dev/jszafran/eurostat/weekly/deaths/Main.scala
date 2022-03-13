@@ -11,14 +11,15 @@ object Main extends App with SparkSessionWrapper {
     .option("delimiter", "\t")
     .csv("data/eurostat_weekly_deaths.tsv")
 
-  val metaCol      = rawDF.columns(0)
-  val yearWeekCols = rawDF.columns.slice(1, rawDF.columns.size).toList
+  val withMetaDF = transforms.extractMetadataDF(rawDF)
 
-  val withMetaDF = transforms.extractMetadataDF(rawDF, metaCol = metaCol)
+  val stackedDF = transforms.stackYearWeekData(withMetaDF)
 
-  val metaCols  = List("age", "sex", "country")
-  val stackedDF = transforms.stackYearWeekData(withMetaDF, toStackCols = yearWeekCols, remainingCols = metaCols)
+  val yearWeekExtractedDF = transforms.extractYearWeekData(stackedDF)
+  val deathsParsedDF      = transforms.parseDeaths(yearWeekExtractedDF)
 
-  println(stackedDF.show(5))
-  println(s"Count after stack: ${stackedDF.count()}")
+  deathsParsedDF.write
+    .partitionBy("country", "year")
+    .parquet("results/eurostat.parquet")
+
 }
