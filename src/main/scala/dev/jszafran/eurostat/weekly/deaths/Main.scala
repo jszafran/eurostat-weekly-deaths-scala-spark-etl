@@ -15,6 +15,7 @@ object Main extends App with SparkSessionWrapper {
     .transform(extractMetadata())
     .transform(stackYearWeekData())
     .transform(extractYearWeekData())
+    .transform(filterOutBadWeeksData())
     .transform(parseDeaths())
 
   // persist transformed data

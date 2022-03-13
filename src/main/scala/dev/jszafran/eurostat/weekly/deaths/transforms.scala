@@ -33,4 +33,8 @@ object transforms {
   def parseDeaths()(df: DataFrame): DataFrame = {
     df.withColumn("deaths", parseDeathsCol(col("deaths")))
   }
+
+  def filterOutBadWeeksData()(df: DataFrame): DataFrame = {
+    df.filter(col("week") > 53)
+  }
 }
