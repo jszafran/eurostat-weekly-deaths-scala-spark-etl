@@ -14,11 +14,10 @@ object Main extends App with SparkSessionWrapper {
   val metaCol      = rawDF.columns(0)
   val yearWeekCols = rawDF.columns.slice(1, rawDF.columns.size).toList
 
-  val withIdDF   = transforms.addIdColumn(rawDF)
-  val withMetaDF = transforms.extractMetadataDF(withIdDF, metaCol = metaCol, idCol = "id")
+  val withMetaDF = transforms.extractMetadataDF(rawDF, metaCol = metaCol)
 
-  val metaCols  = List("id", "age", "sex", "country")
-  val stackedDF = transforms.stackYearWeekData(withMetaDF, yearWeekCols, metaCols)
+  val metaCols  = List("age", "sex", "country")
+  val stackedDF = transforms.stackYearWeekData(withMetaDF, toStackCols = yearWeekCols, remainingCols = metaCols)
 
   println(stackedDF.show(5))
   println(s"Count after stack: ${stackedDF.count()}")

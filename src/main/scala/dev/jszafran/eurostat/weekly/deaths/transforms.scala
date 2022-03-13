@@ -5,12 +5,7 @@ import org.apache.spark.sql.functions._
 import dev.jszafran.eurostat.weekly.deaths.sqlUtils._
 
 object transforms {
-
-  def addIdColumn(df: DataFrame): DataFrame = {
-    df.withColumn("id", monotonically_increasing_id())
-  }
-
-  def extractMetadataDF(df: DataFrame, metaCol: String, idCol: String = "id"): DataFrame = {
+  def extractMetadataDF(df: DataFrame, metaCol: String): DataFrame = {
     val splitPattern = ","
     df
       .withColumn("age", split(col(metaCol), splitPattern).getItem(1))
@@ -20,7 +15,7 @@ object transforms {
   }
 
   def stackYearWeekData(df: DataFrame, toStackCols: List[String], remainingCols: List[String]): DataFrame = {
-    val cols = remainingCols.map(col)
-    df.select(expr(generateStackExpr("(yearweek, deaths)", toStackCols: _*)))
+    val cols = remainingCols.map(col) ::: List(expr(generateStackExpr("(yearweek, deaths)", toStackCols: _*)))
+    df.select(cols: _*)
   }
 }
