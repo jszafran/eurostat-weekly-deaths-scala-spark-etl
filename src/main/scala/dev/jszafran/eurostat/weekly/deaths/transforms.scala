@@ -6,7 +6,7 @@ import dev.jszafran.eurostat.weekly.deaths.functions.{parseDeathsCol}
 import dev.jszafran.eurostat.weekly.deaths.sqlUtils.{generateStackExpr}
 
 object transforms {
-  def extractMetadataDF(df: DataFrame): DataFrame = {
+  def extractMetadata(df: DataFrame): DataFrame = {
     val metaCol      = df.columns(0)
     val splitPattern = ","
     df
