@@ -1,21 +1,24 @@
 package dev.jszafran.eurostat.weekly.deaths
 
+import transforms._
+
 object Main extends App with SparkSessionWrapper {
+  // read raw input data
   val rawDF = spark.read
     .option("inferschema", "false")
     .option("header", "true")
     .option("delimiter", "\t")
     .csv("data/eurostat_weekly_deaths.tsv")
 
-  val withMetaDF = transforms.extractMetadata(rawDF)
+  // transform data
+  val transformedDF = rawDF
+    .transform(extractMetadata())
+    .transform(stackYearWeekData())
+    .transform(extractYearWeekData())
+    .transform(parseDeaths())
 
-  val stackedDF = transforms.stackYearWeekData(withMetaDF)
-
-  val yearWeekExtractedDF = transforms.extractYearWeekData(stackedDF)
-  val deathsParsedDF      = transforms.parseDeaths(yearWeekExtractedDF)
-
-  deathsParsedDF.write
+  // persist transformed data
+  transformedDF.write
     .partitionBy("country", "year")
     .parquet("results/eurostat.parquet")
-
 }
