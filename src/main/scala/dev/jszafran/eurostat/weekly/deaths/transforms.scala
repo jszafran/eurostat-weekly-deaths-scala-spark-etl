@@ -35,6 +35,8 @@ object transforms {
   }
 
   def filterOutBadWeeksData()(df: DataFrame): DataFrame = {
-    df.filter(col("week") > 53)
+    // Eurostat has a bug (week=99) whereas year according to ISO8601 can have either 52 or 53 weeks
+    // I've reported it but, last time I checked, it wasn't removed from dataset.
+    df.filter(col("week") <= 53)
   }
 }
