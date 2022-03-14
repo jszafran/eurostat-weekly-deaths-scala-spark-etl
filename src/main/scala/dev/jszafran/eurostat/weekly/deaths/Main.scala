@@ -11,12 +11,7 @@ object Main extends App with SparkSessionWrapper {
     .csv("data/eurostat_weekly_deaths.tsv")
 
   // transform data
-  val transformedDF = rawDF
-    .transform(withMetadataExtracted())
-    .transform(withYearWeekStacked())
-    .transform(withYearWeekParsed())
-    .transform(withBadWeeksDataFilteredOut())
-    .transform(withDeathsParsed())
+  val transformedDF = rawDF.transform(withEurostatDataTransformed())
 
   // persist transformed data
   transformedDF.write

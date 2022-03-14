@@ -39,4 +39,13 @@ object transforms {
     // I've reported it but, last time I checked, it wasn't removed from dataset.
     df.filter(col("week") <= 53)
   }
+
+  def withEurostatDataTransformed()(df: DataFrame): DataFrame = {
+    df
+      .transform(withMetadataExtracted())
+      .transform(withYearWeekStacked())
+      .transform(withYearWeekParsed())
+      .transform(withBadWeeksDataFilteredOut())
+      .transform(withDeathsParsed())
+  }
 }
