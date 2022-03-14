@@ -12,11 +12,11 @@ object Main extends App with SparkSessionWrapper {
 
   // transform data
   val transformedDF = rawDF
-    .transform(extractMetadata())
-    .transform(stackYearWeekData())
-    .transform(extractYearWeekData())
-    .transform(filterOutBadWeeksData())
-    .transform(parseDeaths())
+    .transform(withMetadataExtracted())
+    .transform(withYearWeekStacked())
+    .transform(withYearWeekParsed())
+    .transform(withBadWeeksDataFilteredOut())
+    .transform(withDeathsParsed())
 
   // persist transformed data
   transformedDF.write
