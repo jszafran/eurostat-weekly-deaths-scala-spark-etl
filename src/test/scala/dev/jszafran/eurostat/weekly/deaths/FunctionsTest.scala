@@ -10,24 +10,21 @@ class FunctionsSpec extends FunSpec with SparkSessionTestWrapper with ColumnComp
 
   import spark.implicits._
 
-  describe("isEven") {
-
-    it("returns true if the number is even and false otherwise") {
-
+  describe("parseDeaths") {
+    it("parses string representation of weekly deaths value; if data not present, it returns null") {
       val data = Seq(
-        (1, false),
-        (2, true),
-        (3, false)
+        ("123", 123),
+        ("11", 11),
+        ("25 p", 25)
+        // (": ", null)  TODO: figure out how to test null value
       )
 
       val df = data
-        .toDF("some_num", "expected")
-        .withColumn("actual", functions.isEven(col("some_num")))
+        .toDF("weekly_deaths", "expected")
+        .withColumn("actual", functions.parseDeaths(col("weekly_deaths")))
 
       assertColumnEquality(df, "actual", "expected")
-
     }
-
   }
 
 }
